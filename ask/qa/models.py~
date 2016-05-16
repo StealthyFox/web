@@ -9,8 +9,8 @@ class Question (models.Model):
 	author = models.ForeignKey(User)
 	likes = models.ManyToManyField(User)
 	
-	#class Meta:
-		#db_table = 'questions'
+	class Meta:
+		db_table = 'questions'
 		
 class Answer (models.Model):
 	text = models.TextField()
@@ -18,6 +18,6 @@ class Answer (models.Model):
 	question = models.ForeignKey(Question)
 	author = models.ForeignKey(User)
 	
-	#class Meta:
-		#db_table = 'answers'
+	class Meta:
+		db_table = 'answers'
 
