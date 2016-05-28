@@ -1,6 +1,11 @@
-{% extends "base.html" %}
-{% block title %}{{ question.title }}{% endblock %}
-{% block content %}
+<!DOCTYPE html>
+<html>
+    <head>
+	<meta charset="utf-8">
+        <title>Question #{{ question.id }}</title>   
+    </head>
+
+    <body>
       	<h1>{{ question.title }}</h1>
 	{{ question.text|linebreaks }}
 
@@ -12,4 +17,5 @@
 		</div> 
 	{% endfor %}
 
-{% endblock %}
+    </body>
+</html> 
