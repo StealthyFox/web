@@ -8,8 +8,8 @@ urlpatterns = [
 	url(r'^$', questions_list, name='questions_list'),
 	url(r'^login/$', test, name='login'),
 	url(r'^signup/$', test, name='signup'),
-	url(r'^ask/.*$', "qa.test", name='ask'),
-	url(r'^new/.*$', "test", name='new'),
+	url(r'^ask/.*$', test, name='ask'),
+	url(r'^new/.*$', test, name='new'),
 
 	url(r'^\?page=(?P<page>\d+)', questions_list, name='questions_list'),	 	
 	url(r'^popular/', popular, name='popular'),
