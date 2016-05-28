@@ -1,8 +1,8 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse Http404, HttpResponseRedirect
-from django.core.paginator import Paginator, EmptyPage
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.core.paginator import Paginator
 from qa.models import Question, Answer
-from django.core.urlresolvers import reverse
+from django.http import Http404, HttpResponseRedirect
 from django.views.decorators.http import require_GET
 
 def paginate(request, qs):
@@ -36,7 +36,7 @@ def questions_list(request):
 	qs = Question.objects.all()
 	qs = qs.order_by('-added_at')
 	page, paginator = paginate(request, qs)
-	paginator.baseurl = reverse('questions_list')
+	paginator.baseurl = reverse('questions_list') #+ '?page='
 	return render(request,'q_list.html', {'questions': page.object_list, 'paginator': paginator, 'page':page, })
 	#return render(request,'questions_list.html', {'user':request.user, 'questions': page.object_list, 'paginator': paginator, 'page':page, })
 
@@ -44,7 +44,7 @@ def popular(request):
 	qs = Question.objects.all()
 	qs = qs.order_by('-rating')
 	page, paginator = paginate(request,qs)
-	paginator.baseurl = reverse('popular') + '?page='
+	paginator.baseurl = reverse('popular')# + '?page='
 	return render(request,'popular_q_list.html', {'questions': page.object_list, 'paginator': paginator, 'page':page, })
 
 @require_GET

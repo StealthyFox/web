@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}Ask Pupkin{% endblock %}</title>
+	<meta charset="utf-8">
+</head>
+<body>
+    <div class="content">
+      {% block content %}{% endblock %}
+    </div>
+
+  </div>
+  <div class="clear"></div>
+  <footer>
+    <p class="copy">
+      Copyleft 2016. Powered by Django
+    </p>
+  </footer>
+</body>
+</html>
