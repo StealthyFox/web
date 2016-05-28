@@ -5,7 +5,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = [
-	url(r'^$', questions_list, name='questions_list'),
+	url(r'^$', test, name='questions_list'),
 	url(r'^login/$', test, name='login'),
 	url(r'^signup/$', test, name='signup'),
 	url(r'^ask/.*$', "qa.test", name='ask'),
