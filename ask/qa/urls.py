@@ -1,10 +1,10 @@
-from django.conf.urls import url, patterns
+from django.conf.urls import url
 from qa.views import test, question, questions_list, popular
 
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = [
 	url(r'^$', questions_list, name='questions_list'),
 	url(r'^login/$', test, name='login'),
 	url(r'^signup/$', test, name='signup'),
@@ -16,5 +16,4 @@ urlpatterns = patterns('',
 	#url(r'^popular/\?page=(?P<page>\d+)', popular, name='popular'),
 	url(r'^question/(?P<pk>\d+)/$', question, name='question'),
 
-
-)
+]
