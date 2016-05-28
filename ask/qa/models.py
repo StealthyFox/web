@@ -9,9 +9,10 @@ class Question (models.Model):
 	rating = models.IntegerField(default=0)
 	author = models.ForeignKey(User, related_name="question_author")
 	likes = models.ManyToManyField(User, related_name="question_like")
-	
+	def __str__(self):
+		return self.title
 	def get_absolute_url(self):
-        	return reverse('question', kwargs={'pk': self.pk})
+		return reverse('question', kwargs={'pk': self.pk})
 	#class Meta:
 		#db_table = 'questions'
 		
