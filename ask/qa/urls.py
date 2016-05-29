@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from qa.views import test, question, questions_list, popular
+from qa.views import question_ask, question_answer
 
 from django.contrib import admin
 admin.autodiscover()
