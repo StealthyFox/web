@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_GET
 from qa.forms import AskForm, AnswerForm
 from qa.forms import LoginForm, SignupForm
+from django.contrib.auth import login, logout
 
 def paginate(request, qs):
 	try:
@@ -94,7 +95,8 @@ def user_signup(request):
             if user is not None:
                 login(request, user)
                 return HttpResponseRedirect('/')
-    form = SignupForm()
+	else:
+		form = SignupForm()
     return render(request, 'signup.html', {'form': form})
     
 def user_login(request):

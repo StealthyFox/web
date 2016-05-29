@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from qa.views import test, question, questions_list, popular
 from qa.views import question_ask, question_answer
-from qa.views import user_signup, user_login, user_logout
+from qa.views import user_signup, user_login
 from django.contrib import admin
 admin.autodiscover()
 
