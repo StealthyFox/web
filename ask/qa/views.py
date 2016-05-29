@@ -4,6 +4,7 @@ from django.core.paginator import Paginator, EmptyPage
 from qa.models import Question, Answer
 from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_GET
+from qa.forms import AskForm, AnswerForm
 
 def paginate(request, qs):
 	try:
@@ -51,8 +52,35 @@ def popular(request):
 def question(request, pk):
 	question = get_object_or_404(Question, id=pk)
 	answers = Answer.objects.filter(question = question)
+	form = AnswerForm(initial={'question': str(pk)})
 	#form = AnswerForm(initial={'question': str(id)})
-	return render(request, 'question.html', {'question' : question, 'answers':answers, })
+	return render(request, 'question.html', {
+		'question' : question,
+		'answers':answers, 
+		'form': form,
+	})
 
-	
+def question_ask(request):
+    if request.method == 'POST':
+        form = AskForm(request.POST)
+        if form.is_valid():
+            askquestion = form.save()
+            url = reverse('question', args=[askquestion.id])
+            return HttpResponseRedirect(url)
+    else:
+        form = AskForm()
+
+    return render(request, 'ask.html', {
+        'form': form
+    })
+
+
+def question_answer(request):
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            answer = form.save()
+            url = reverse('question', args=[answer.question.id])
+            return HttpResponseRedirect(url)
+    return HttpResponseRedirect('/')	
 # Create your views here.
