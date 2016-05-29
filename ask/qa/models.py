@@ -22,6 +22,8 @@ class Answer (models.Model):
 	question = models.ForeignKey(Question)
 	author = models.ForeignKey(User)
 	
+	def __str__(self):
+		return 'Answer by {}'.format(self.author)
 	#class Meta:
 		#db_table = 'answers'
 

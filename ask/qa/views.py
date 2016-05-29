@@ -5,6 +5,7 @@ from qa.models import Question, Answer
 from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_GET
 from qa.forms import AskForm, AnswerForm
+from qa.forms import LoginForm, SignupForm
 
 def paginate(request, qs):
 	try:
@@ -48,12 +49,11 @@ def popular(request):
 	paginator.baseurl = reverse('popular') + '?page='
 	return render(request,'popular_q_list.html', {'questions': page.object_list, 'paginator': paginator, 'page':page, })
 
-@require_GET
+
 def question(request, pk):
 	question = get_object_or_404(Question, id=pk)
 	answers = Answer.objects.filter(question = question)
 	form = AnswerForm(initial={'question': str(pk)})
-	#form = AnswerForm(initial={'question': str(id)})
 	return render(request, 'question.html', {
 		'question' : question,
 		'answers':answers, 
@@ -61,26 +61,49 @@ def question(request, pk):
 	})
 
 def question_ask(request):
-    if request.method == 'POST':
-        form = AskForm(request.POST)
-        if form.is_valid():
-            askquestion = form.save()
-            url = reverse('question', args=[askquestion.id])
-            return HttpResponseRedirect(url)
-    else:
-        form = AskForm()
+	if request.method == 'POST':
+		form = AskForm(request.POST)
+		if form.is_valid():
+			form._user = request.user
+			askquestion = form.save()
+			url = reverse('question', args=[askquestion.id])
+			return HttpResponseRedirect(url)
+	else:
+		form = AskForm()
 
-    return render(request, 'ask.html', {
-        'form': form
-    })
+	return render(request, 'ask.html', {
+		'form': form
+	})
 
 
 def question_answer(request):
+	if request.method == 'POST':
+		form = AnswerForm(request.POST)
+		if form.is_valid():
+			form._user = request.user
+			answer = form.save()
+			url = reverse('question', args=[answer.question.id])
+			return HttpResponseRedirect(url)
+	return HttpResponseRedirect('/')	
+
+def user_signup(request):
     if request.method == 'POST':
-        form = AnswerForm(request.POST)
+        form = SignupForm(request.POST)
         if form.is_valid():
-            answer = form.save()
-            url = reverse('question', args=[answer.question.id])
-            return HttpResponseRedirect(url)
-    return HttpResponseRedirect('/')	
-# Create your views here.
+            user = form.save()
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/')
+    form = SignupForm()
+    return render(request, 'signup.html', {'form': form})
+    
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/')
+    form = LoginForm()
+    return render(request, 'login.html', {'form': form})
