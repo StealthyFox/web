@@ -48,7 +48,6 @@ def popular(request):
 	paginator.baseurl = reverse('popular') + '?page='
 	return render(request,'popular_q_list.html', {'questions': page.object_list, 'paginator': paginator, 'page':page, })
 
-@require_GET
 def question(request, pk):
 	question = get_object_or_404(Question, id=pk)
 	answers = Answer.objects.filter(question = question)
